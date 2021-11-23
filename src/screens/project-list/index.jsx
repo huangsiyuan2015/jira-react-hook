@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import qs from "qs";
 import { SearchPanel } from "./search-panel";
 import { List } from "./list";
-import { cleanObject } from "utils";
+import { cleanObject, useMount, useDebounce } from "utils";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -11,31 +11,27 @@ export const ProjectListScreen = () => {
     projectName: "",
     personId: "",
   });
+  const debouncedParams = useDebounce(params, 2000);
   const [persons, setPersons] = useState([]);
   const [list, setList] = useState([]);
 
   // 获取 list 中项目名和负责人的数据
   useEffect(() => {
-    // fetch("")
-    //   .then((response) => response.ok && response.json())
-    //   .then((data) => console.log(data))
-    //   .catch((error) => console.log(error));
-
-    fetch(`${apiUrl}/projects?${qs.stringify(cleanObject(params))}`).then(
-      async (response) => {
-        try {
-          if (response.ok) {
-            setList(await response.json());
-          }
-        } catch (error) {
-          console.log(error);
+    fetch(
+      `${apiUrl}/projects?${qs.stringify(cleanObject(debouncedParams))}`
+    ).then(async (response) => {
+      try {
+        if (response.ok) {
+          setList(await response.json());
         }
+      } catch (error) {
+        console.log(error);
       }
-    );
-  }, [params]);
+    });
+  }, [debouncedParams]);
 
   // 获取 select 框中负责人的数据
-  useEffect(() => {
+  useMount(() => {
     fetch(`${apiUrl}/persons`).then(async (response) => {
       try {
         if (response.ok) {
@@ -45,7 +41,7 @@ export const ProjectListScreen = () => {
         console.log(error);
       }
     });
-  }, []);
+  });
 
   return (
     <div>

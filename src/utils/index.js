@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 const isFalsy = (value) => (value === 0 ? false : !value); // 排除 0
 
 export const cleanObject = (obj) => {
@@ -10,4 +12,22 @@ export const cleanObject = (obj) => {
   });
 
   return result;
+};
+
+// 自定义 hook
+export const useMount = (callback) => {
+  useEffect(() => {
+    callback();
+  }, []);
+};
+
+export const useDebounce = (value, delay) => {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    let timer = setTimeout(() => setDebouncedValue(value), delay);
+    return () => clearTimeout(timer);
+  }, [value]);
+
+  return debouncedValue;
 };
