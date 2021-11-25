@@ -2,7 +2,7 @@ import React from "react";
 
 interface SearchPanelProps {
   params: {
-    projectName: string;
+    name: string;
     personId: string;
   };
   setParams: (params: SearchPanelProps["params"]) => void;
@@ -24,11 +24,11 @@ export const SearchPanel = ({
       <div>
         <input
           type="text"
-          value={params.projectName}
+          value={params.name}
           onChange={(event) =>
             setParams({
               ...params,
-              projectName: event.target.value,
+              name: event.target.value,
             })
           }
         />

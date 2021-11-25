@@ -8,7 +8,7 @@ interface ListProps {
 
 interface Project {
   id: number;
-  projectName: string;
+  name: string;
   personId: number;
   organization: string;
 }
@@ -25,7 +25,7 @@ export const List = ({ list, persons }: ListProps) => {
       <tbody>
         {list.map((project) => (
           <tr key={project.id}>
-            <td>{project.projectName}</td>
+            <td>{project.name}</td>
             <td>
               {persons.find((person) => person.id === project.personId)?.name ||
                 "未知"}
