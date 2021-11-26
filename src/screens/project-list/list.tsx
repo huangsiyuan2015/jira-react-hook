@@ -1,4 +1,5 @@
 import React from "react";
+import { Table } from "antd";
 import { Person } from "screens/project-list/search-panel";
 
 interface ListProps {
@@ -15,24 +16,25 @@ interface Project {
 
 export const List = ({ list, persons }: ListProps) => {
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>项目</th>
-          <th>负责人</th>
-        </tr>
-      </thead>
-      <tbody>
-        {list.map((project) => (
-          <tr key={project.id}>
-            <td>{project.name}</td>
-            <td>
+    <Table
+      pagination={false}
+      columns={[
+        {
+          title: "名称",
+          dataIndex: "name",
+          sorter: (a, b) => a.name.localeCompare(b.name),
+        },
+        {
+          title: "负责人",
+          render: (value, project) => (
+            <span>
               {persons.find((person) => person.id === project.personId)?.name ||
                 "未知"}
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+            </span>
+          ),
+        },
+      ]}
+      dataSource={list}
+    />
   );
 };
