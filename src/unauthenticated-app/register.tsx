@@ -53,7 +53,7 @@ export const RegisterScreen = ({ onError }: RegisterScreenProps) => {
         <Input type="password" id="cpassword" placeholder="请确认密码" />
       </Form.Item>
       <Form.Item>
-        <LongButton type="primary" htmlType="submit">
+        <LongButton loading={isLoading} type="primary" htmlType="submit">
           注册
         </LongButton>
       </Form.Item>

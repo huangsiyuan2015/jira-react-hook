@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useAsync } from "utils/use-async";
 import { cleanObject } from "utils";
 import { useHttp } from "utils/http";
