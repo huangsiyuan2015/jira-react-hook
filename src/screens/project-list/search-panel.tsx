@@ -4,7 +4,7 @@ import { Form, Input, Select } from "antd";
 interface SearchPanelProps {
   params: {
     name: string;
-    personId: string;
+    personId: number;
   };
   setParams: (params: SearchPanelProps["params"]) => void;
   persons: Person[];
@@ -45,7 +45,7 @@ export const SearchPanel = ({
             })
           }
         >
-          <Select.Option value={""}>负责人</Select.Option>
+          <Select.Option value={0}>负责人</Select.Option>
           {persons.map((person) => (
             <Select.Option value={person.id} key={person.id}>
               {person.name}

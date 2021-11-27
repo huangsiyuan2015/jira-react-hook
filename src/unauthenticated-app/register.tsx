@@ -1,33 +1,39 @@
-import React, { FormEvent } from "react";
+import React from "react";
 import { useAuth } from "context/auth-context";
 import { Form, Input } from "antd";
 import { LongButton } from "./index";
+import { useAsync } from "utils/use-async";
 
-const apiUrl = process.env.REACT_APP_API_URL;
+interface RegisterScreenProps {
+  onError: (error: Error) => void;
+}
 
-export const RegisterScreen = () => {
-  const { register, user } = useAuth();
+export const RegisterScreen = ({ onError }: RegisterScreenProps) => {
+  const { register } = useAuth();
+  const { run, isLoading } = useAsync(undefined, { throwOnError: true });
 
-  // const login = (params: { username: string; password: string }) => {
-  //   fetch(`${apiUrl}/login`, {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify(params),
-  //   }).then(async (response) => {
-  //     try {
-  //       if (response.ok) {
-  //         console.log(await response.json());
-  //       }
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   });
-  // };
+  const handleSubmit = async ({
+    cpassword,
+    ...values
+  }: {
+    username: string;
+    password: string;
+    cpassword: string;
+  }) => {
+    if (cpassword !== values.password) {
+      onError(new Error("请确认两次输入的密码一致！"));
+      return;
+    }
+
+    try {
+      await run(register(values));
+    } catch (error: any) {
+      onError(error);
+    }
+  };
 
   return (
-    <Form onFinish={register}>
+    <Form onFinish={handleSubmit}>
       <Form.Item
         name="username"
         rules={[{ required: true, message: "请输入用户名" }]}
@@ -38,7 +44,13 @@ export const RegisterScreen = () => {
         name="password"
         rules={[{ required: true, message: "请输入密码" }]}
       >
-        <Input type="text" id="password" placeholder="密码" />
+        <Input type="password" id="password" placeholder="密码" />
+      </Form.Item>
+      <Form.Item
+        name="cpassword"
+        rules={[{ required: true, message: "请确认密码" }]}
+      >
+        <Input type="password" id="cpassword" placeholder="请确认密码" />
       </Form.Item>
       <Form.Item>
         <LongButton type="primary" htmlType="submit">

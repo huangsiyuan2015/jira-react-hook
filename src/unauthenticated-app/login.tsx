@@ -1,33 +1,30 @@
-import React, { FormEvent } from "react";
+import React from "react";
 import { useAuth } from "context/auth-context";
 import { Form, Input } from "antd";
 import { LongButton } from "./index";
+import { useAsync } from "utils/use-async";
 
-const apiUrl = process.env.REACT_APP_API_URL;
+interface LoginScreenProps {
+  onError: (error: Error) => void;
+}
 
-export const LoginScreen = () => {
-  const { login, user } = useAuth();
+export const LoginScreen = ({ onError }: LoginScreenProps) => {
+  const { login } = useAuth();
+  const { run, isLoading } = useAsync(undefined, { throwOnError: true });
 
-  // const login = (params: { username: string; password: string }) => {
-  //   fetch(`${apiUrl}/login`, {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify(params),
-  //   }).then(async (response) => {
-  //     try {
-  //       if (response.ok) {
-  //         console.log(await response.json());
-  //       }
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   });
-  // };
+  const handleSubmit = async (values: {
+    username: string;
+    password: string;
+  }) => {
+    try {
+      await run(login(values));
+    } catch (error: any) {
+      onError(error);
+    }
+  };
 
   return (
-    <Form onFinish={login}>
+    <Form onFinish={handleSubmit}>
       <Form.Item
         name="username"
         rules={[{ required: true, message: "请输入用户名" }]}
@@ -38,10 +35,10 @@ export const LoginScreen = () => {
         name="password"
         rules={[{ required: true, message: "请输入密码" }]}
       >
-        <Input type="text" id="password" placeholder="密码" />
+        <Input type="password" id="password" placeholder="密码" />
       </Form.Item>
       <Form.Item>
-        <LongButton type="primary" htmlType="submit">
+        <LongButton loading={isLoading} type="primary" htmlType="submit">
           登录
         </LongButton>
       </Form.Item>

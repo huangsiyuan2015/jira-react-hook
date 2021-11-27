@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 
-const isFalsy = (value: unknown) => (value === 0 ? false : !value); // 排除 0
+const isVoid = (value: unknown) =>
+  value === undefined || value === null || value === "" || value === 0;
 
-export const cleanObject = (obj: object) => {
+export const cleanObject = (obj: { [key: string]: unknown }) => {
   const result = { ...obj };
 
   Object.keys(result).forEach((key) => {
-    // @ts-ignore
-    if (isFalsy(result[key])) {
-      // @ts-ignore
+    let value = result[key];
+    if (isVoid(value)) {
       delete result[key];
     }
   });
@@ -20,6 +20,7 @@ export const cleanObject = (obj: object) => {
 export const useMount = (callback: () => void) => {
   useEffect(() => {
     callback();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 };
 
