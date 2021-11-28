@@ -6,7 +6,6 @@ import { useDebounce, useDocumentTitle } from "utils";
 import { useProjects } from "utils/projects";
 import { usePersons } from "utils/persons";
 import styled from "@emotion/styled";
-import { Helmet } from "react-helmet";
 
 export const ProjectListScreen = () => {
   const [params, setParams] = useState({
