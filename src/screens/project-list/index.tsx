@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import { SearchPanel } from "./search-panel";
 import { List } from "./list";
 import { Typography } from "antd";
-import { useDebounce } from "utils";
+import { useDebounce, useDocumentTitle } from "utils";
 import { useProjects } from "utils/projects";
 import { usePersons } from "utils/persons";
 import styled from "@emotion/styled";
+import { Helmet } from "react-helmet";
 
 export const ProjectListScreen = () => {
   const [params, setParams] = useState({
@@ -15,6 +16,8 @@ export const ProjectListScreen = () => {
   const debouncedParams = useDebounce(params, 500);
   const { isLoading, error, data: list } = useProjects(debouncedParams);
   const { data: persons } = usePersons();
+
+  useDocumentTitle("项目列表", false);
 
   return (
     <Container>
