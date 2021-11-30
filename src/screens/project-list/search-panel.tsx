@@ -1,17 +1,16 @@
 import React from "react";
 import { Form, Input, Select } from "antd";
+import { Project } from "./list";
+import { UserSelect } from "components/user-select";
 
 interface SearchPanelProps {
-  params: {
-    name: string;
-    personId: string;
-  };
-  setParams: (params: SearchPanelProps["params"]) => void;
   persons: Person[];
+  params: Partial<Pick<Project, "name" | "personId">>;
+  setParams: (params: SearchPanelProps["params"]) => void;
 }
 
 export interface Person {
-  id: string;
+  id: number;
   name: string;
 }
 
@@ -36,7 +35,8 @@ export const SearchPanel = ({
         />
       </Form.Item>
       <Form.Item>
-        <Select
+        <UserSelect
+          defaultOptionName="负责人"
           value={params.personId}
           onChange={(value) =>
             setParams({
@@ -44,14 +44,7 @@ export const SearchPanel = ({
               personId: value,
             })
           }
-        >
-          <Select.Option value={""}>负责人</Select.Option>
-          {persons.map((person) => (
-            <Select.Option value={person.id} key={person.id}>
-              {person.name}
-            </Select.Option>
-          ))}
-        </Select>
+        />
       </Form.Item>
     </Form>
   );
