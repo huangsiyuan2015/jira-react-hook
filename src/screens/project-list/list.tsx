@@ -11,7 +11,7 @@ interface ListProps extends TableProps<Project> {
 export interface Project {
   id: number;
   name: string;
-  personId: number;
+  personId: string;
   organization: string;
   created: number;
 }
