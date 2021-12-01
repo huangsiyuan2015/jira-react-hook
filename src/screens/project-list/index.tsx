@@ -17,6 +17,7 @@ export const ProjectListScreen = () => {
     isLoading,
     error,
     data: list,
+    retry,
   } = useProjects(useDebounce(params, 200));
   const { data: persons } = usePersons();
 
@@ -35,10 +36,13 @@ export const ProjectListScreen = () => {
         persons={persons || []}
         dataSource={list || []}
         loading={isLoading}
+        refresh={retry}
       />
     </Container>
   );
 };
+
+ProjectListScreen.whyDidYouRender = true;
 
 const Container = styled.div`
   padding: 3.2rem;
