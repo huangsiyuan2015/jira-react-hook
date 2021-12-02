@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useMountedRef } from "utils";
 
 interface State<D> {
@@ -32,53 +32,61 @@ export const useAsync = <D>(
 
   const [retry, setRetry] = useState(() => () => {});
 
-  const setData = (data: D) =>
-    setState({
-      stat: "success",
-      data,
-      error: null,
-    });
+  const setData = useCallback(
+    (data: D) =>
+      setState({
+        stat: "success",
+        data,
+        error: null,
+      }),
+    []
+  );
 
-  const setError = (error: Error) =>
-    setState({
-      stat: "error",
-      data: null,
-      error,
-    });
+  const setError = useCallback(
+    (error: Error) =>
+      setState({
+        stat: "error",
+        data: null,
+        error,
+      }),
+    []
+  );
 
   // run 用来触发异步请求
-  const run = (
-    promise: Promise<D>,
-    runConfig?: { retry: () => Promise<D> }
-  ) => {
-    if (!promise || !promise.then) {
-      throw new Error("请传入 Promise 类型数据！");
-    }
-
-    setState({ ...state, stat: "loading" });
-    setRetry(() => () => {
-      console.log("setRetry");
-      run(promise);
-      if (runConfig?.retry) {
-        run(runConfig?.retry(), runConfig);
+  const run = useCallback(
+    (promise: Promise<D>, runConfig?: { retry: () => Promise<D> }) => {
+      if (!promise || !promise.then) {
+        throw new Error("请传入 Promise 类型数据！");
       }
-    });
 
-    return promise
-      .then((data) => {
-        if (mountedRef.current) {
-          setData(data);
+      // setState({ ...state, stat: "loading" });
+      setState((preState) => ({ ...preState, stat: "loading" }));
+
+      setRetry(() => () => {
+        console.log("setRetry");
+        run(promise);
+        if (runConfig?.retry) {
+          run(runConfig?.retry(), runConfig);
         }
-        return data;
-      })
-      .catch((error) => {
-        setError(error);
-        if (config.throwOnError) {
-          return Promise.reject(error);
-        }
-        return error;
       });
-  };
+
+      return promise
+        .then((data) => {
+          if (mountedRef.current) {
+            setData(data);
+          }
+          return data;
+        })
+        .catch((error) => {
+          setError(error);
+          if (config.throwOnError) {
+            return Promise.reject(error);
+          }
+          return error;
+        });
+    },
+    [config.throwOnError, mountedRef, setData, setError]
+  );
 
   return {
     isIdle: state.stat === "idle",

@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { SearchPanel } from "./search-panel";
 import { List } from "./list";
 import { Typography } from "antd";
