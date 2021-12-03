@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   BrowserRouter,
   Routes,
@@ -13,35 +13,71 @@ import { Row } from "components/lib";
 import { ReactComponent as SoftwareLogo } from "assets/software-logo.svg";
 import { Dropdown, Menu, Button } from "antd";
 import { ProjectScreen } from "screens/project";
+import { ProjectModal } from "screens/project-list/project-modal";
+import { ProjectPopover } from "components/project-popover";
 
-export const AuthenticatedApp = () => (
-  <Container>
+export const AuthenticatedApp = () => {
+  const [projectModalOpen, setProjectModalOpen] = useState(false);
+
+  return (
     <BrowserRouter>
-      <PageHeader />
-      <Main>
-        <Routes>
-          <Route path="/projects" element={<ProjectListScreen />} />
-          <Route path="/projects/:projectId/*" element={<ProjectScreen />} />
-          {/* 重定向，根路径 / 重定向到 /projects */}
-          <Route path="/" element={<Navigate to="/projects" />} />
-        </Routes>
-      </Main>
+      <Container>
+        <PageHeader
+          // 使用组件组合 component composition 代替 prop 多层传递
+          projectButton={
+            <Button type="link" onClick={() => setProjectModalOpen(true)}>
+              创建项目
+            </Button>
+          }
+        />
+        <Main>
+          <Routes>
+            <Route
+              path="/projects"
+              element={
+                <ProjectListScreen
+                  // 使用组件组合 component composition 代替 prop 多层传递
+                  projectButton={
+                    <Button
+                      type="link"
+                      onClick={() => setProjectModalOpen(true)}
+                    >
+                      创建项目
+                    </Button>
+                  }
+                />
+              }
+            />
+            <Route path="/projects/:projectId/*" element={<ProjectScreen />} />
+            {/* 重定向，根路径 / 重定向到 /projects */}
+            <Route path="/" element={<Navigate to="/projects" />} />
+          </Routes>
+        </Main>
+        <ProjectModal
+          projectModalOpen={projectModalOpen}
+          onClose={() => setProjectModalOpen(false)}
+        />
+      </Container>
     </BrowserRouter>
-  </Container>
-);
+  );
+};
 
-const PageHeader = () => {
+const PageHeader = ({ projectButton }: { projectButton: JSX.Element }) => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
   return (
     <Header between={true}>
       <HeaderLeft gap={true}>
-        <Button type="link" onClick={() => navigate("/")}>
+        <Button
+          style={{ padding: 0 }}
+          type="link"
+          onClick={() => navigate("/")}
+        >
           <SoftwareLogo width="18rem" color="rgb(38, 132, 255)" />
         </Button>
-        <h2>项目</h2>
-        <h2>用户</h2>
+        <ProjectPopover projectButton={projectButton} />
+        <span>用户</span>
       </HeaderLeft>
       <HeaderRight>
         <Dropdown

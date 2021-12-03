@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Table, TableProps } from "antd";
+import { Button, Dropdown, Menu, Table, TableProps } from "antd";
 import { Person } from "screens/project-list/search-panel";
 import dayjs from "dayjs";
 import { Pin } from "components/pin";
@@ -9,6 +9,7 @@ import { useEditProject } from "utils/projects";
 interface ListProps extends TableProps<Project> {
   persons: Person[];
   refresh?: () => void;
+  projectButton: JSX.Element;
 }
 
 export interface Project {
@@ -20,7 +21,12 @@ export interface Project {
   pin: boolean;
 }
 
-export const List = ({ persons, refresh, ...props }: ListProps) => {
+export const List = ({
+  persons,
+  refresh,
+  projectButton,
+  ...props
+}: ListProps) => {
   const { mutate } = useEditProject();
   const pinProject = (id: number) => (pin: boolean) =>
     mutate({ id, pin }).then(refresh);
@@ -66,6 +72,19 @@ export const List = ({ persons, refresh, ...props }: ListProps) => {
                 ? dayjs(project.created).format("YYYY-MM-DD")
                 : "无"}
             </span>
+          ),
+        },
+        {
+          render: (value, project) => (
+            <Dropdown
+              overlay={
+                <Menu>
+                  <Menu.Item key="edit">{projectButton}</Menu.Item>
+                </Menu>
+              }
+            >
+              <Button type="link">...</Button>
+            </Dropdown>
           ),
         },
       ]}
