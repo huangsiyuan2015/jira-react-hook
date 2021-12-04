@@ -2,14 +2,12 @@ import React from "react";
 import { Button, List, Popover, Typography } from "antd";
 import { useProjects } from "utils/projects";
 import styled from "@emotion/styled";
+import { useProjectModal } from "screens/project-list/util";
 
-export const ProjectPopover = ({
-  projectButton,
-}: {
-  projectButton: JSX.Element;
-}) => {
+export const ProjectPopover = () => {
   const { data: projects, isLoading } = useProjects();
   const pinnedProjects = projects?.filter((project) => project.pin);
+  const { open } = useProjectModal();
 
   const content = (
     <ContentContainer>
@@ -21,7 +19,9 @@ export const ProjectPopover = ({
           </List.Item>
         ))}
       </List>
-      {projectButton}
+      <Button type="link" onClick={open}>
+        创建项目
+      </Button>
     </ContentContainer>
   );
 

@@ -17,52 +17,25 @@ import { ProjectModal } from "screens/project-list/project-modal";
 import { ProjectPopover } from "components/project-popover";
 
 export const AuthenticatedApp = () => {
-  const [projectModalOpen, setProjectModalOpen] = useState(false);
-
   return (
     <BrowserRouter>
       <Container>
-        <PageHeader
-          // 使用组件组合 component composition 代替 prop 多层传递
-          projectButton={
-            <Button type="link" onClick={() => setProjectModalOpen(true)}>
-              创建项目
-            </Button>
-          }
-        />
+        <PageHeader />
         <Main>
           <Routes>
-            <Route
-              path="/projects"
-              element={
-                <ProjectListScreen
-                  // 使用组件组合 component composition 代替 prop 多层传递
-                  projectButton={
-                    <Button
-                      type="link"
-                      onClick={() => setProjectModalOpen(true)}
-                    >
-                      创建项目
-                    </Button>
-                  }
-                />
-              }
-            />
+            <Route path="/projects" element={<ProjectListScreen />} />
             <Route path="/projects/:projectId/*" element={<ProjectScreen />} />
             {/* 重定向，根路径 / 重定向到 /projects */}
             <Route path="/" element={<Navigate to="/projects" />} />
           </Routes>
         </Main>
-        <ProjectModal
-          projectModalOpen={projectModalOpen}
-          onClose={() => setProjectModalOpen(false)}
-        />
+        <ProjectModal />
       </Container>
     </BrowserRouter>
   );
 };
 
-const PageHeader = ({ projectButton }: { projectButton: JSX.Element }) => {
+const PageHeader = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -76,7 +49,7 @@ const PageHeader = ({ projectButton }: { projectButton: JSX.Element }) => {
         >
           <SoftwareLogo width="18rem" color="rgb(38, 132, 255)" />
         </Button>
-        <ProjectPopover projectButton={projectButton} />
+        <ProjectPopover />
         <span>用户</span>
       </HeaderLeft>
       <HeaderRight>

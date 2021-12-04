@@ -5,11 +5,11 @@ import { Person } from "screens/project-list/search-panel";
 import dayjs from "dayjs";
 import { Pin } from "components/pin";
 import { useEditProject } from "utils/projects";
+import { useProjectModal } from "./util";
 
 interface ListProps extends TableProps<Project> {
   persons: Person[];
   refresh?: () => void;
-  projectButton: JSX.Element;
 }
 
 export interface Project {
@@ -21,15 +21,11 @@ export interface Project {
   pin: boolean;
 }
 
-export const List = ({
-  persons,
-  refresh,
-  projectButton,
-  ...props
-}: ListProps) => {
+export const List = ({ persons, refresh, ...props }: ListProps) => {
   const { mutate } = useEditProject();
   const pinProject = (id: number) => (pin: boolean) =>
     mutate({ id, pin }).then(refresh);
+  const { open } = useProjectModal();
 
   return (
     <Table
@@ -79,7 +75,11 @@ export const List = ({
             <Dropdown
               overlay={
                 <Menu>
-                  <Menu.Item key="edit">{projectButton}</Menu.Item>
+                  <Menu.Item key="edit">
+                    <Button type="link" onClick={open}>
+                      创建项目
+                    </Button>
+                  </Menu.Item>
                 </Menu>
               }
             >

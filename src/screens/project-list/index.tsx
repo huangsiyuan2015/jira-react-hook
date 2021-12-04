@@ -5,14 +5,10 @@ import { useDebounce, useDocumentTitle } from "utils";
 import { useProjects } from "utils/projects";
 import { usePersons } from "utils/persons";
 import styled from "@emotion/styled";
-import { useProjectSearchParams } from "./util";
+import { useProjectModal, useProjectSearchParams } from "./util";
 import { Row } from "components/lib";
 
-export const ProjectListScreen = ({
-  projectButton,
-}: {
-  projectButton: JSX.Element;
-}) => {
+export const ProjectListScreen = () => {
   useDocumentTitle("项目列表", false);
   // 原始类型的数据可以放在依赖里，组件状态可以放进依赖里
   // 非组件状态的对象不能放进依赖里
@@ -24,12 +20,15 @@ export const ProjectListScreen = ({
     retry,
   } = useProjects(useDebounce(params, 200));
   const { data: persons } = usePersons();
+  const { open } = useProjectModal();
 
   return (
     <Container>
       <Row between={true}>
         <h1>项目列表</h1>
-        {projectButton}
+        <Button type="link" onClick={open}>
+          创建项目
+        </Button>
       </Row>
       <SearchPanel
         params={params}
@@ -44,7 +43,6 @@ export const ProjectListScreen = ({
         dataSource={list || []}
         loading={isLoading}
         refresh={retry}
-        projectButton={projectButton}
       />
     </Container>
   );
