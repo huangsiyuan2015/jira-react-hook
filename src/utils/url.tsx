@@ -4,7 +4,8 @@ import { cleanObject } from "utils";
 
 // <K extends string> 泛型约束
 export const useUrlQueryParam = <K extends string>(keys: K[]) => {
-  const [searchParam, setSearchParam] = useSearchParams();
+  const [searchParam] = useSearchParams();
+  const setUrlSearchParam = useSetUrlSearchParam();
 
   return [
     useMemo(
@@ -17,11 +18,7 @@ export const useUrlQueryParam = <K extends string>(keys: K[]) => {
     ),
     // setSearchParam,
     (params: Partial<{ [key in K]: unknown }>) => {
-      const o = cleanObject({
-        ...Object.fromEntries(searchParam),
-        ...params,
-      }) as URLSearchParamsInit;
-      return setSearchParam(o);
+      return setUrlSearchParam(params);
     },
   ] as const;
 };
@@ -31,3 +28,15 @@ export const useUrlQueryParam = <K extends string>(keys: K[]) => {
 // const foo = ["hello", 101];
 // 推断为数组类型，只能有两个元素，第一个是 string 类型，第二个是 number 类型
 // const bar = ["hello", 101] as const;
+
+export const useSetUrlSearchParam = () => {
+  const [searchParam, setSearchParam] = useSearchParams();
+
+  return (params: { [key in string]: unknown }) => {
+    const o = cleanObject({
+      ...Object.fromEntries(searchParam),
+      ...params,
+    }) as URLSearchParamsInit;
+    return setSearchParam(o);
+  };
+};
