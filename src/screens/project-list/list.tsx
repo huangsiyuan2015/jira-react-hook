@@ -23,9 +23,9 @@ export interface Project {
 
 export const List = ({ persons, refresh, ...props }: ListProps) => {
   const { mutate } = useEditProject();
-  const pinProject = (id: number) => (pin: boolean) =>
-    mutate({ id, pin }).then(refresh);
-  const { open } = useProjectModal();
+  const { startEdit } = useProjectModal();
+  const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin });
+  const editProject = (id: number) => () => startEdit(id);
 
   return (
     <Table
@@ -75,11 +75,10 @@ export const List = ({ persons, refresh, ...props }: ListProps) => {
             <Dropdown
               overlay={
                 <Menu>
-                  <Menu.Item key="edit">
-                    <Button type="link" onClick={open}>
-                      创建项目
-                    </Button>
+                  <Menu.Item key="edit" onClick={editProject(project.id)}>
+                    编辑
                   </Menu.Item>
+                  <Menu.Item key="delete">删除</Menu.Item>
                 </Menu>
               }
             >

@@ -6,7 +6,7 @@ import { useProjects } from "utils/projects";
 import { usePersons } from "utils/persons";
 import styled from "@emotion/styled";
 import { useProjectModal, useProjectSearchParams } from "./util";
-import { Row } from "components/lib";
+import { ErrorBox, Row } from "components/lib";
 
 export const ProjectListScreen = () => {
   useDocumentTitle("项目列表", false);
@@ -17,7 +17,6 @@ export const ProjectListScreen = () => {
     isLoading,
     error,
     data: list,
-    retry,
   } = useProjects(useDebounce(params, 200));
   const { data: persons } = usePersons();
   const { open } = useProjectModal();
@@ -35,14 +34,11 @@ export const ProjectListScreen = () => {
         setParams={setParams}
         persons={persons || []}
       />
-      {error ? (
-        <Typography.Text type="danger">{error.message}</Typography.Text>
-      ) : null}
+      <ErrorBox error={error} />
       <List
         persons={persons || []}
         dataSource={list || []}
         loading={isLoading}
-        refresh={retry}
       />
     </Container>
   );

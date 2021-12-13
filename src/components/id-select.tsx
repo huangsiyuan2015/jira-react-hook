@@ -9,8 +9,8 @@ type SelectProps = React.ComponentProps<typeof Select>;
 // Select 组件和 IdSelect 组件都有 options 属性，共有属性的类型产生冲突，使用 Omit 剔除同名的属性
 interface IdSelectProps
   extends Omit<SelectProps, "value" | "onChange" | "options"> {
-  value: Raw | null | undefined;
-  onChange: (value?: number) => void;
+  value?: Raw | null | undefined;
+  onChange?: (value?: number) => void;
   defaultOptionName?: string;
   options?: { name: string; id: number }[];
 }
@@ -25,7 +25,7 @@ export const IdSelect = ({
   return (
     <Select
       value={options?.length ? toNumber(value) : 0}
-      onChange={(value) => onChange(toNumber(value) || 0)}
+      onChange={(value) => onChange?.(toNumber(value) || 0)}
       {...restProps}
     >
       {defaultOptionName ? (
