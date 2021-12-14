@@ -1,16 +1,12 @@
 import { Form, Input } from "antd";
-import { Project } from "./list";
 import { UserSelect } from "components/user-select";
+import { Person } from "types/person";
+import { Project } from "types/project";
 
 interface SearchPanelProps {
   persons: Person[];
   params: Partial<Pick<Project, "name" | "personId">>;
   setParams: (params: SearchPanelProps["params"]) => void;
-}
-
-export interface Person {
-  id: number;
-  name: string;
 }
 
 export const SearchPanel = ({

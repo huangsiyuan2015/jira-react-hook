@@ -1,25 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button, Dropdown, Menu, Table, TableProps, Modal } from "antd";
-import { Person } from "screens/project-list/search-panel";
 import dayjs from "dayjs";
 import { Pin } from "components/pin";
 import { useDeleteProject, useEditProject } from "utils/projects";
 import { useProjectModal, useProjectsQueryKey } from "./util";
-import { useDeleteConfig } from "utils/use-optimistic-options";
+import { Project } from "types/project";
+import { Person } from "types/person";
 
 interface ListProps extends TableProps<Project> {
   persons: Person[];
   refresh?: () => void;
-}
-
-export interface Project {
-  id: number;
-  name: string;
-  personId: number;
-  organization: string;
-  created: number;
-  pin: boolean;
 }
 
 export const List = ({ persons, refresh, ...props }: ListProps) => {

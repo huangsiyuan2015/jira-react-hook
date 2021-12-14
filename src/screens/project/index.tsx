@@ -1,13 +1,8 @@
-import React, { useEffect } from "react";
 import { Link, Routes, Route, Navigate } from "react-router-dom";
-import { KanbanScreen } from "./kanban";
+import { KanbanScreen } from "screens/kanban";
 import { EpicScreen } from "./epic";
 
 export const ProjectScreen = () => {
-  useEffect(() => {
-    console.log(window.location);
-  }, []);
-
   return (
     <div>
       <span>ProjectScreen</span>
@@ -21,7 +16,12 @@ export const ProjectScreen = () => {
         {/* 重定向，子路由下 / 路径重定向到 /kanban */}
         <Route
           path="/"
-          element={<Navigate to={window.location.pathname + "/kanban"} />}
+          element={
+            <Navigate
+              to={window.location.pathname + "/kanban"}
+              replace={true}
+            />
+          }
         />
       </Routes>
     </div>

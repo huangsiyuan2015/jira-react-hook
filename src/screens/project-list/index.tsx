@@ -1,6 +1,6 @@
 import { SearchPanel } from "./search-panel";
 import { List } from "./list";
-import { Button, Typography } from "antd";
+import { Button } from "antd";
 import { useDebounce, useDocumentTitle } from "utils";
 import { useProjects } from "utils/projects";
 import { usePersons } from "utils/persons";

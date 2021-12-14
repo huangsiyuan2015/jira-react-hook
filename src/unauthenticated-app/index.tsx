@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
-import { Card, Divider, Button, Typography } from "antd";
+import { Card, Divider, Button } from "antd";
 import { LoginScreen } from "./login";
 import { RegisterScreen } from "./register";
 import logo from "assets/logo.svg";
@@ -32,7 +32,7 @@ export const UnauthenticatedApp = () => {
             setError(null);
           }}
         >
-          {isRegister ? "没有账号？注册新账号" : "已经有账号？直接登录"}
+          {isRegister ? "已经有账号？直接登录" : "没有账号？注册新账号"}
         </Button>
       </ShadowCard>
     </Container>
