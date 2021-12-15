@@ -89,5 +89,7 @@ const HeaderLeft = styled(Row)``;
 const HeaderRight = styled.div``;
 
 const Main = styled.main`
-  height: clac(100vh - 6rem);
+  display: flex;
+  overflow: hidden;
+  /* height: clac(100vh - 6rem); */
 `;
