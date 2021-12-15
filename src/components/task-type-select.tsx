@@ -1,5 +1,4 @@
 import React from "react";
-import { usePersons } from "utils/persons";
 import { useTaskTypes } from "utils/task-type";
 import { IdSelect } from "./id-select";
 

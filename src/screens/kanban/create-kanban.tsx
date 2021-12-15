@@ -1,10 +1,10 @@
 import { Input } from "antd";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useAddKanban } from "utils/kanban";
 import { Container } from "./kanban-column";
 import { useKanbansQueryKey, useProjectIdInUrl } from "./util";
 
-function CreateKanban() {
+export const CreateKanban = () => {
   const [name, setName] = useState("");
   const projectId = useProjectIdInUrl();
   const { mutateAsync: addKanban } = useAddKanban(useKanbansQueryKey());
@@ -25,6 +25,4 @@ function CreateKanban() {
       />
     </Container>
   );
-}
-
-export default CreateKanban;
+};

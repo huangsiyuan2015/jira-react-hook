@@ -47,3 +47,15 @@ export const useEditTask = (queryKey: QueryKey) => {
     useEditConfig(queryKey)
   );
 };
+
+export const useDeleteTask = (queryKey: QueryKey) => {
+  const client = useHttp();
+
+  return useMutation(
+    ({ id }: { id: number }) =>
+      client(`tasks/${id}`, {
+        method: "DELETE",
+      }),
+    useEditConfig(queryKey)
+  );
+};

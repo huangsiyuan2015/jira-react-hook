@@ -4,7 +4,7 @@ import { ScreenContainer } from "components/lib";
 import { useDocumentTitle } from "utils";
 import { useKanbans } from "utils/kanban";
 import { useTasks } from "utils/task";
-import CreateKanban from "./create-kanban";
+import { CreateKanban } from "./create-kanban";
 import { KanbanColumn } from "./kanban-column";
 import { SearchPanel } from "./search-panel";
 import { TaskModal } from "./task-modal";
@@ -31,7 +31,7 @@ export const KanbanScreen = () => {
       {isLoading ? (
         <Spin size="large" />
       ) : (
-        <ColumnsContainer>
+        <ColumnsContainer className="columns-container">
           {kanbans?.map((kanban) => (
             <KanbanColumn key={kanban.id} kanban={kanban} />
           ))}
@@ -49,5 +49,6 @@ export const ColumnsContainer = styled.div`
   margin-right: 2rem; */
   display: flex;
   /* overflow-x: scroll; */
+  overflow: scroll;
   flex: 1;
 `;
