@@ -1,17 +1,13 @@
-import { useEffect } from "react";
-import { useAsync } from "utils/use-async";
 import { useHttp } from "utils/http";
-import { cleanObject } from "utils";
 import { Person } from "types/person";
+import { useQuery } from "react-query";
+import { User } from "auth-provider";
 
-export const usePersons = (params?: Partial<Person>) => {
+export const usePersons = (param?: Partial<Person>) => {
   const client = useHttp();
-  const { run, ...result } = useAsync<Person[]>();
 
-  useEffect(() => {
-    run(client("persons", { data: cleanObject(params || {}) }));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [params]);
-
-  return result;
+  // param 发生变化就会重新发起请求
+  return useQuery<User[]>(["persons", param], () =>
+    client("persons", { data: param })
+  );
 };
