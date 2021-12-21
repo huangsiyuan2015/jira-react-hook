@@ -6,7 +6,7 @@ import { useProjects } from "utils/projects";
 import { usePersons } from "utils/persons";
 import styled from "@emotion/styled";
 import { useProjectModal, useProjectSearchParams } from "./util";
-import { ErrorBox, Row } from "components/lib";
+import { ErrorBox, Row, ScreenContainer } from "components/lib";
 
 export const ProjectListScreen = () => {
   useDocumentTitle("项目列表", false);
@@ -22,7 +22,7 @@ export const ProjectListScreen = () => {
   const { open } = useProjectModal();
 
   return (
-    <Container>
+    <ScreenContainer>
       <Row between={true}>
         <h1>项目列表</h1>
         <Button type="link" onClick={open}>
@@ -40,10 +40,6 @@ export const ProjectListScreen = () => {
         dataSource={list || []}
         loading={isLoading}
       />
-    </Container>
+    </ScreenContainer>
   );
 };
-
-const Container = styled.div`
-  padding: 3.2rem;
-`;
