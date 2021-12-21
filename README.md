@@ -1,46 +1,26 @@
-# Getting Started with Create React App
+# jira-react-hook
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+在线预览：https://jira-react-hook.pages.dev/
 
-## Available Scripts
+测试账号：admin，测试密码：111111，也可自行注册
 
-In the project directory, you can run:
+开源地址：https://github.com/huangsiyuan2015/jira-react-hook
 
-### `yarn start`
+Ps：如若数据不能正常显示，请按照[这篇文章](https://blog.51cto.com/u_15127618/3959547)操作修改浏览器设置
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## 项目描述
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+该项目是一个 PC 端应用——任务管理系统，功能模块划分为：
 
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+- 用户模块：用户注册、登录
+- 项目模块：
+  - 项目显示
+    - 项目能够按照筛选条件过滤显示
+  - 项目管理
+    - 对项目进行添加/删除/修改/收藏
+- 看板模块：
+  - 看板显示：
+    - 看板中的任务能够按照筛选条件过滤显示
+  - 看板管理：
+    - 对看板进行添加/删除，也可以拖动看板顺序
+    - 在看板中添加/删除/修改任务，也可以拖动任务顺序
